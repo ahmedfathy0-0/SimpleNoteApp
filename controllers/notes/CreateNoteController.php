@@ -24,7 +24,7 @@ class CreateNoteController {
             }
         }
 
-        require __DIR__ . '/../../views/notes/create.php';
+        view('notes/create', compact('title', 'success', 'error'));
     }
 }
 

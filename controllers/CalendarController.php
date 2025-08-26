@@ -2,8 +2,7 @@
 class CalendarController {
     public function index() {
         $title = "Calendar";
-        require __DIR__ . '/../views/calendar.php';
-
+        view('calendar', compact('title'));
     }
 }
 

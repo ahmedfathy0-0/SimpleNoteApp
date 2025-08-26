@@ -1,5 +1,4 @@
 <?php
-$title = "Create Note";
 ob_start();
 ?>
 <div class="max-w-3xl mx-auto mt-1 flex items-center justify-between">
@@ -27,4 +26,4 @@ ob_start();
 </form>
 <?php
 $content = ob_get_clean();
-include __DIR__ . '/../layout.php';
+include base_path('views/layout.php');

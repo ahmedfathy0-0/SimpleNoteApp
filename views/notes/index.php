@@ -1,8 +1,5 @@
 <?php
-$title = "Notes";
 ob_start();
-
-$notes = $db->getAllNotes();
 ?>
 <div class="flex justify-end mb-6">
   <a href="/note/create" class="bg-indigo-500 hover:bg-indigo-400 text-white font-semibold px-4 py-2 rounded shadow transition">
@@ -22,4 +19,5 @@ $notes = $db->getAllNotes();
 </div>
 <?php
 $content = ob_get_clean();
-include __DIR__ . '/../layout.php';
+include base_path('views/layout.php');
+

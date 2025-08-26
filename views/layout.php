@@ -10,7 +10,7 @@
 
 <div class="min-h-full">
   <!-- Navbar -->
-  <?php include __DIR__ . '/partials/navbar.php'; ?>
+  <?php include base_path('views/partials/navbar.php'); ?>
 
   <!-- Header -->
   <header class="relative bg-gray-800 after:pointer-events-none after:absolute after:inset-x-0 after:inset-y-0 after:border-y after:border-white/10">

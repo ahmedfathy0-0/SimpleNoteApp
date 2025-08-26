@@ -1,6 +1,6 @@
 <?php
-require_once __DIR__ . '/functions/routeToController.php';
-require_once __DIR__ . '/functions/abort.php';
+require_once base_path('functions/routeToController.php');
+require_once base_path('functions/abort.php');
 
 $page = parse_url($_SERVER['REQUEST_URI'])['path'];
 

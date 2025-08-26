@@ -7,4 +7,4 @@ ob_start(); // Start buffering page content
 <?php
 $content = ob_get_clean(); 
 
-include __DIR__ . '/layout.php';
+include base_path('views/layout.php');

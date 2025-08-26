@@ -1,10 +1,6 @@
 <?php
-if (!isset($db)) {
-    global $db;
-}
-$note = $db->getNote($_GET['id'] ?? null);
 if (!$note) {
-    require_once __DIR__ . '/../functions/abort.php';
+    require_once base_path('functions/abort.php');
     abort(Response::FORBIDDEN);
 }
 $title = htmlspecialchars($note['title']);
@@ -29,4 +25,4 @@ ob_start();
 </div>
 <?php
 $content = ob_get_clean();
-include __DIR__ . '/../layout.php';
+include base_path('views/layout.php');

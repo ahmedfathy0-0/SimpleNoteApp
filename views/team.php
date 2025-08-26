@@ -6,4 +6,4 @@ ob_start();
   <p class="text-gray-300">Meet your awesome team members here!</p>
 <?php
 $content = ob_get_clean();
-include __DIR__ . '/layout.php';
+include base_path('views/layout.php');

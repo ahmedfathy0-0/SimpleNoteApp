@@ -4,7 +4,8 @@ class NotesController {
         global $db, $config;
         $db->getConnection($config['database'], 'root', 'NEW@22wntg');
         $title = "Notes";
-        require __DIR__ . '//../../views/notes/index.php';
+        $notes = $db->getAllNotes();
+        view('notes/index', compact('title', 'notes'));
     }
 
     public function show($id) {
@@ -21,8 +22,13 @@ class NotesController {
                 exit;
             }
         }
+        $note = $db->getNote($id);
+        if (!$note) {
+            require_once base_path('functions/abort.php');
+            abort(Response::FORBIDDEN);
+        }
         $title = "Note Details";
-        require __DIR__ . '/../../views/notes/show.php';
+        view('notes/show', compact('title', 'note'));
     }
 }
 
