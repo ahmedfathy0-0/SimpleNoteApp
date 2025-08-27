@@ -1,4 +1,6 @@
 <?php
+use Core\Database;
+
 class ProjectsController {
     public function index() {
         $title = "Projects";

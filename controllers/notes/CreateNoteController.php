@@ -1,4 +1,5 @@
 <?php
+use Core\Database;
 
 class CreateNoteController {
     public function index() {

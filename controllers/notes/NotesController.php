@@ -1,4 +1,6 @@
 <?php
+use Core\Database;
+
 class NotesController {
     public function index() {
         global $db, $config;
@@ -11,8 +13,14 @@ class NotesController {
     public function show($id) {
         global $db, $config;
         $db->getConnection($config['database'], 'root', 'NEW@22wntg');
+         $user_id = 1; // Replace with actual user logic if available
+
         // Handle delete via DELETE request
         if ($_SERVER['REQUEST_METHOD'] === 'DELETE') {
+            if (!$db->userOwnsNote($user_id, $id)) {
+                require_once base_path('functions/abort.php');
+                abort(\Core\Response::FORBIDDEN);
+            }
             if ($db->deleteNote($id)) {
                 http_response_code(204); // No Content
                 exit;
@@ -25,7 +33,7 @@ class NotesController {
         $note = $db->getNote($id);
         if (!$note) {
             require_once base_path('functions/abort.php');
-            abort(Response::FORBIDDEN);
+            abort(\Core\Response::FORBIDDEN);
         }
         $title = "Note Details";
         view('notes/show', compact('title', 'note'));

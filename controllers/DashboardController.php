@@ -1,5 +1,6 @@
 <?php
 // controllers/DashboardController.php
+use Core\Database;
 
 class DashboardController
 {

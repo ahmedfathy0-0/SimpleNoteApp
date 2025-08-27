@@ -1,4 +1,6 @@
 <?php
+use Core\Database;
+
 class TeamController {
     public function index() {
         $title = "Team";

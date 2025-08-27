@@ -1,4 +1,6 @@
 <?php
+use Core\Database;
+
 class CalendarController {
     public function index() {
         $title = "Calendar";

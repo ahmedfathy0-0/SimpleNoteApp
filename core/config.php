@@ -1,5 +1,7 @@
 <?php
-return  [
+namespace Core;
+
+return [
     'database' => [
         'host' => 'localhost',
         'port' => '3306',
