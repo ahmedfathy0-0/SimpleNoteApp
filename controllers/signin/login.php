@@ -15,16 +15,12 @@ class LoginController {
         $password = $_POST['password'] ?? '';
 
         if ($username && $password) {
-            $query = "SELECT * FROM users WHERE username = :username";
-            $stmt = $db->conn->prepare($query);
-            $stmt->bindParam(':username', $username);
-            $stmt->execute();
-            $user = $stmt->fetch(PDO::FETCH_ASSOC);
-            if ($user && password_verify($password, $user['password'])) {
+            $user = $db->authenticateUser($username, $password);
+            if ($user) {
                 $_SESSION['user_id'] = $user['user_id'];
                 $_SESSION['username'] = $user['username'];
                 $success = true;
-                header('Location: /notes');
+                header('Location: /');
                 exit;
             } else {
                 $error = "Invalid credentials.";
