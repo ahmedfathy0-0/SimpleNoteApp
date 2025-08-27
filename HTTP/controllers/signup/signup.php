@@ -1,12 +1,13 @@
 <?php
 use Core\App;
-use Core\Validator;
+
+require_once base_path('HTTP/Forms/SignupForm.php');
+use HTTP\Forms\SignupForm;
 
 class SignupController {
     public function register() {
         $container = App::getContainer();
         $auth = $container->resolve('Authenticator');
-        $validator = $container->resolve('Validator');
         $title = "Sign Up";
         $error = null;
         $success = false;
@@ -15,13 +16,10 @@ class SignupController {
         $email = trim($_POST['email'] ?? '');
         $password = $_POST['password'] ?? '';
 
-        $missing = Validator::required(['username', 'email', 'password'], $_POST);
-        if ($missing) {
-            $error = "Missing fields: " . implode(', ', $missing);
-        } elseif (!Validator::email($email)) {
-            $error = "Invalid email address.";
-        } elseif (!Validator::minLength($password, 6)) {
-            $error = "Password must be at least 6 characters.";
+        $form = new SignupForm();
+        if (!$form->validate($username, $email, $password)) {
+            $errors = $form->getErrors();
+            $error = implode(', ', $errors);
         } else {
             $result = $auth->signup($username, $email, $password);
             if ($result === true) {
@@ -35,5 +33,4 @@ class SignupController {
     }
 }
 
-$controller = new SignupController();
 $controller = new SignupController();
