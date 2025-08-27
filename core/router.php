@@ -32,12 +32,6 @@ $router->get('/note/edit', [
     'method' => 'edit',
     'params' => [$_GET['id'] ?? null]
 ]);
-$router->patch('/note/edit', [
-    'controller' => 'controllers/notes/edit.php',
-    'class' => 'NotesEditController',
-    'method' => 'edit',
-    'params' => [$_GET['id'] ?? null]
-]);
 $router->patch('/note/update', [
     'controller' => 'controllers/notes/update.php',
     'class' => 'NotesUpdateController',

@@ -10,15 +10,6 @@
             <a href="/" aria-current="page" class="rounded-md 
              <?php echo (($title ?? '') === 'Dashboard') ? 'bg-gray-950/50' : ''; ?>
              px-3 py-2 text-sm font-medium text-white">Dashboard</a>
-            <a href="/team" class="rounded-md 
-            <?php echo (($title ?? '') === 'Team') ? 'bg-gray-950/50' : ''; ?>
-            px-3 py-2 text-sm font-medium text-gray-300 hover:bg-white/5 hover:text-white">Team</a>
-            <a href="/projects" class="rounded-md
-            <?php echo (($title ?? '') === 'Projects') ? 'bg-gray-950/50' : ''; ?>
-            px-3 py-2 text-sm font-medium text-gray-300 hover:bg-white/5 hover:text-white">Projects</a>
-            <a href="/calendar" class="rounded-md 
-            <?php echo (($title ?? '') === 'Calendar') ? 'bg-gray-950/50' : ''; ?>
-            px-3 py-2 text-sm font-medium text-gray-300 hover:bg-white/5 hover:text-white">Calendar</a>
             <a href="/notes" class="rounded-md 
             <?php echo (($title ?? '') === 'Notes') ? 'bg-gray-950/50' : ''; ?>
             px-3 py-2 text-sm font-medium text-gray-300 hover:bg-white/5 hover:text-white">Notes</a>
