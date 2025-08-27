@@ -9,8 +9,9 @@ class NotesShowController {
         $user_id = $_SESSION['user_id'] ?? null;
         $note = $db->getNoteByUser($id, $user_id);
         if (!$note) {
-            require_once base_path('functions/abort.php');
-            abort(\Core\Response::FORBIDDEN);
+            http_response_code(403);
+            echo "Forbidden";
+            exit;
         }
         $title = "Note Details";
         view('notes/show', compact('title', 'note'));
@@ -18,4 +19,3 @@ class NotesShowController {
 }
 
 $controller = new NotesShowController();
-  

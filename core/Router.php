@@ -45,7 +45,7 @@ class Router {
         // Middleware check
         if (!empty($action['middleware'])) {
             $middleware = $action['middleware'];
-            require_once base_path("middleware/{$middleware}.php");
+            require_once base_path("core/middleware/{$middleware}.php");
             $middlewareFunc = "{$middleware}_middleware";
             if (function_exists($middlewareFunc)) {
                 $middlewareFunc();

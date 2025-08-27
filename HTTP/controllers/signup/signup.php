@@ -1,12 +1,11 @@
 <?php
-use Core\Database;
 use Core\App;
 use Core\Validator;
 
 class SignupController {
     public function register() {
         $container = App::getContainer();
-        $db = $container->resolve('Database');
+        $auth = $container->resolve('Authenticator');
         $validator = $container->resolve('Validator');
         $title = "Sign Up";
         $error = null;
@@ -24,7 +23,7 @@ class SignupController {
         } elseif (!Validator::minLength($password, 6)) {
             $error = "Password must be at least 6 characters.";
         } else {
-            $result = $db->registerUser($username, $email, $password);
+            $result = $auth->signup($username, $email, $password);
             if ($result === true) {
                 $success = true;
             } else {
@@ -36,4 +35,5 @@ class SignupController {
     }
 }
 
+$controller = new SignupController();
 $controller = new SignupController();

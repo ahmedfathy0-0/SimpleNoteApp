@@ -12,11 +12,11 @@ ob_start();
   <form method="post" action="/signin">
     <div class="mb-4">
       <label for="username" class="block text-gray-300 mb-2">Username</label>
-      <input type="text" id="username" name="username" class="w-full px-3 py-2 rounded bg-gray-900 text-white border border-gray-700" required>
+      <input type="text" id="username" name="username" class="w-full px-3 py-2 rounded bg-gray-900 text-white border border-gray-700" >
     </div>
     <div class="mb-4">
       <label for="password" class="block text-gray-300 mb-2">Password</label>
-      <input type="password" id="password" name="password" class="w-full px-3 py-2 rounded bg-gray-900 text-white border border-gray-700" required>
+      <input type="password" id="password" name="password" class="w-full px-3 py-2 rounded bg-gray-900 text-white border border-gray-700">
     </div>
     <button type="submit" class="bg-indigo-500 hover:bg-indigo-400 text-white font-semibold px-4 py-2 rounded">Sign In</button>
   </form>

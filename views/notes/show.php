@@ -1,8 +1,4 @@
 <?php
-if (!$note) {
-    require_once base_path('functions/abort.php');
-    abort(Response::FORBIDDEN);
-}
 $title = htmlspecialchars($note['title']);
 ob_start();
 ?>

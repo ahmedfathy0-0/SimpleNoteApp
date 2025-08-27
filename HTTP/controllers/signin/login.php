@@ -1,14 +1,12 @@
 <?php 
 
-use Core\Database;
 use Core\App;
-use Core\Validator;
+use HTTP\Forms\LoginForm;
 
 class LoginController {
     public function login() {
         $container = App::getContainer();
-        $db = $container->resolve('Database');
-        $validator = $container->resolve('Validator');
+        $auth = $container->resolve('Authenticator');
         $title = "Sign In";
         $error = null;
         $success = false;
@@ -16,14 +14,14 @@ class LoginController {
         $username = trim($_POST['username'] ?? '');
         $password = $_POST['password'] ?? '';
 
-        $missing = Validator::required(['username', 'password'], $_POST);
-        if ($missing) {
-            $error = "Missing fields: " . implode(', ', $missing);
+        require_once base_path('HTTP/Forms/LoginForm.php');
+        $form = new LoginForm();
+
+        if (!$form->validate($username, $password)) {
+            $errors = $form->getErrors();
+            $error = implode(', ', $errors);
         } else {
-            $user = $db->authenticateUser($username, $password);
-            if ($user) {
-                $_SESSION['user_id'] = $user['user_id'];
-                $_SESSION['username'] = $user['username'];
+            if ($auth->login($username, $password)) {
                 $success = true;
                 header('Location: /');
                 exit;

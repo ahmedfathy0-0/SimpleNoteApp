@@ -1,10 +1,12 @@
 <?php
 
+use Core\App;
+
 class LogoutController {
     public function logout() {
-        session_start();
-        session_unset();
-        session_destroy();
+        $container = App::getContainer();
+        $auth = $container->resolve('Authenticator');
+        $auth->logout();
         header('Location: /signin');
         exit;
     }
