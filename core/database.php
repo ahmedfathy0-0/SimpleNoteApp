@@ -71,4 +71,26 @@ class Database {
         $stmt->bindParam(':content', $content, PDO::PARAM_STR);
         return $stmt->execute();
     }
+    public function getAllNotesByUser($user_id) {
+        $query = "SELECT * FROM notes WHERE user_id = :user_id";
+        $stmt = $this->conn->prepare($query);
+        $stmt->bindParam(':user_id', $user_id, PDO::PARAM_INT);
+        $stmt->execute();
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    }
+    public function getNoteByUser($note_id, $user_id) {
+        $query = "SELECT * FROM notes WHERE note_id = :note_id AND user_id = :user_id";
+        $stmt = $this->conn->prepare($query);
+        $stmt->bindParam(':note_id', $note_id, PDO::PARAM_INT);
+        $stmt->bindParam(':user_id', $user_id, PDO::PARAM_INT);
+        $stmt->execute();
+        return $stmt->fetch(PDO::FETCH_ASSOC);
+    }
+    public function deleteNoteByUser($note_id, $user_id) {
+        $query = "DELETE FROM notes WHERE note_id = :note_id AND user_id = :user_id";
+        $stmt = $this->conn->prepare($query);
+        $stmt->bindParam(':note_id', $note_id, PDO::PARAM_INT);
+        $stmt->bindParam(':user_id', $user_id, PDO::PARAM_INT);
+        return $stmt->execute();
+    }
 }

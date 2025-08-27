@@ -6,7 +6,11 @@ class NotesUpdateController {
     public function update($id = null) {
         $container = App::getContainer();
         $db = $container->resolve('Database');
-        $user_id = 1; // Replace with actual user logic if needed
+        $user_id = $_SESSION['user_id'] ?? null;
+        if (!$user_id) {
+            header('Location: /signin');
+            exit;
+        }
         $title = "Edit Note";
         $success = false;
         $error = null;
@@ -30,14 +34,14 @@ class NotesUpdateController {
         if ($note_title && $note_content) {
             if ($db->updateNote($id, $user_id, $note_title, $note_content)) {
                 $success = true;
-                $note = $db->getNote($id);
+                $note = $db->getNoteByUser($id, $user_id);
             } else {
                 $error = "Failed to update note.";
-                $note = $db->getNote($id);
+                $note = $db->getNoteByUser($id, $user_id);
             }
         } else {
             $error = "Title and content are required.";
-            $note = $db->getNote($id);
+            $note = $db->getNoteByUser($id, $user_id);
         }
 
         view('notes/edit', compact('title', 'success', 'error', 'note'));

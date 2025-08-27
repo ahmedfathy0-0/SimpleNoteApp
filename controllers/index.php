@@ -2,12 +2,14 @@
 // controllers/DashboardController.php
 use Core\Database;
 
+$_SESSION['user_id'] = 1; 
+
 class DashboardController
 {
     public function index()
     {
         $title = "Dashboard"; // Pass a title to the view
-        view('dashboard', compact('title'));
+        view('index', compact('title'));
     }
 }
 

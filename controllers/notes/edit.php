@@ -6,6 +6,11 @@ class NotesEditController {
     public function create() {
         $container = App::getContainer();
         $db = $container->resolve('Database');
+        $user_id = $_SESSION['user_id'] ?? null;
+        if (!$user_id) {
+            header('Location: /signin');
+            exit;
+        }
         $title = "Edit Note";
         $success = false;
         $error = null;
@@ -16,13 +21,18 @@ class NotesEditController {
     public function edit($id = null) {
         $container = App::getContainer();
         $db = $container->resolve('Database');
+        $user_id = $_SESSION['user_id'] ?? null;
+        if (!$user_id) {
+            header('Location: /signin');
+            exit;
+        }
         $title = "Edit Note";
         $success = false;
         $error = null;
         $note = null;
 
         if ($id) {
-            $note = $db->getNote($id);
+            $note = $db->getNoteByUser($id, $user_id);
             if (!$note) {
                 $error = "Note not found.";
             }

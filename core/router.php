@@ -48,24 +48,35 @@ $router->delete('/note', [
 
 // Other routes (dashboard, team, projects, calendar)
 $router->get('/', [
-    'controller' => 'controllers/DashboardController.php',
+    'controller' => 'controllers/index.php',
     'class' => 'DashboardController',
     'method' => 'index'
 ]);
-$router->get('/team', [
-    'controller' => 'controllers/TeamController.php',
-    'class' => 'TeamController',
-    'method' => 'index'
+
+$router->get('/signup', [
+    'controller' => 'controllers/signup/show.php',
+    'class' => 'SignupController',
+    'method' => 'show'
 ]);
-$router->get('/projects', [
-    'controller' => 'controllers/ProjectsController.php',
-    'class' => 'ProjectsController',
-    'method' => 'index'
+$router->post('/signup', [
+    'controller' => 'controllers/signup/signup.php',
+    'class' => 'SignupController',
+    'method' => 'register'
 ]);
-$router->get('/calendar', [
-    'controller' => 'controllers/CalendarController.php',
-    'class' => 'CalendarController',
-    'method' => 'index'
+$router->get('/signin', [
+    'controller' => 'controllers/signin/show.php',
+    'class' => 'SigninController',
+    'method' => 'show'
+]);
+$router->post('/signin', [
+    'controller' => 'controllers/signin/login.php',
+    'class' => 'LoginController',
+    'method' => 'login'
+]);
+$router->get('/logout', [
+    'controller' => 'controllers/signin/logout.php',
+    'class' => 'LogoutController',
+    'method' => 'logout'
 ]);
 
 $page = parse_url($_SERVER['REQUEST_URI'])['path'];

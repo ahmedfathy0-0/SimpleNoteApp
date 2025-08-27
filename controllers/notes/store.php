@@ -6,7 +6,11 @@ class NotesStoreController {
     public function store() {
         $container = App::getContainer();
         $db = $container->resolve('Database');
-        $user_id = 1; // Replace with actual user logic if needed
+        $user_id = $_SESSION['user_id'] ?? null;
+        if (!$user_id) {
+            header('Location: /signin');
+            exit;
+        }
         $note_title = trim($_POST['title'] ?? '');
         $note_content = trim($_POST['content'] ?? '');
 

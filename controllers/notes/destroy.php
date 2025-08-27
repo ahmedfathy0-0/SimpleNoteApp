@@ -6,13 +6,17 @@ class NotesDestroyController {
     public function destroy($id) {
         $container = App::getContainer();
         $db = $container->resolve('Database');
-        $user_id = 1; // Replace with actual user logic if available
+        $user_id = $_SESSION['user_id'] ?? null;
+        if (!$user_id) {
+            header('Location: /signin');
+            exit;
+        }
 
         if (!$db->userOwnsNote($user_id, $id)) {
             require_once base_path('functions/abort.php');
             abort(\Core\Response::FORBIDDEN);
         }
-        if ($db->deleteNote($id)) {
+        if ($db->deleteNoteByUser($id, $user_id)) {
             http_response_code(204); // No Content
             exit;
         } else {
