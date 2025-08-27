@@ -9,7 +9,7 @@ class Database {
 
     public $conn;
 
-    public function getConnection($config, $username, $password) {
+    public function __construct($config, $username, $password) {
         $this->conn = null;
         $dsn = 'mysql:' . http_build_query($config, '', ';');
         try {
@@ -18,7 +18,6 @@ class Database {
         } catch(PDOException $exception) {
             echo "Connection error: " . $exception->getMessage();
         }
-        return $this->conn;
     }
 
     public function closeConnection() {
@@ -31,6 +30,7 @@ class Database {
         $stmt->execute();
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
+
 
     public function getNote($id) {
         $query = "SELECT * FROM notes WHERE user_id = 1 AND note_id = :id";
@@ -61,5 +61,14 @@ class Database {
         $stmt->bindParam(':user_id', $user_id, PDO::PARAM_INT);
         $stmt->execute();
         return $stmt->fetchColumn() > 0;
+    }
+    public function updateNote($note_id, $user_id, $title, $content) {
+        $query = "UPDATE notes SET title = :title, content = :content WHERE note_id = :note_id AND user_id = :user_id";
+        $stmt = $this->conn->prepare($query);
+        $stmt->bindParam(':note_id', $note_id, PDO::PARAM_INT);
+        $stmt->bindParam(':user_id', $user_id, PDO::PARAM_INT);
+        $stmt->bindParam(':title', $title, PDO::PARAM_STR);
+        $stmt->bindParam(':content', $content, PDO::PARAM_STR);
+        return $stmt->execute();
     }
 }
