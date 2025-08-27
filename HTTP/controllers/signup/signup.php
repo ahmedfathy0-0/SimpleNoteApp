@@ -1,7 +1,9 @@
 <?php
 use Core\App;
+use Core\Session;
 
 require_once base_path('HTTP/Forms/SignupForm.php');
+require_once base_path('core/Session.php');
 use HTTP\Forms\SignupForm;
 
 class SignupController {
@@ -9,23 +11,31 @@ class SignupController {
         $container = App::getContainer();
         $auth = $container->resolve('Authenticator');
         $title = "Sign Up";
-        $error = null;
-        $success = false;
+        $error = Session::getFlash('error');
+        $success = Session::getFlash('success');
 
         $username = trim($_POST['username'] ?? '');
         $email = trim($_POST['email'] ?? '');
         $password = $_POST['password'] ?? '';
 
         $form = new SignupForm();
-        if (!$form->validate($username, $email, $password)) {
-            $errors = $form->getErrors();
-            $error = implode(', ', $errors);
-        } else {
-            $result = $auth->signup($username, $email, $password);
-            if ($result === true) {
-                $success = true;
+        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+            if (!$form->validate($username, $email, $password)) {
+                $errors = $form->getErrors();
+                Session::flash('error', implode(', ', $errors));
+                header('Location: /signup');
+                exit;
             } else {
-                $error = $result;
+                $result = $auth->signup($username, $email, $password);
+                if ($result === true) {
+                    Session::flash('success', true);
+                    header('Location: /signup');
+                    exit;
+                } else {
+                    Session::flash('error', $result);
+                    header('Location: /signup');
+                    exit;
+                }
             }
         }
 

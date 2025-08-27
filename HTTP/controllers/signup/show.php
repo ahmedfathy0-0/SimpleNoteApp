@@ -1,12 +1,13 @@
 <?php
 use Core\Database;
 use Core\App;
+use Core\Session;
 
 class SignupController {
     public function show() {
         $title = "Sign Up";
-        $error = null;
-        $success = false;
+        $error = Session::getFlash('error');
+        $success = Session::getFlash('success');
         view('signup', compact('title', 'error', 'success'));
     }
 }

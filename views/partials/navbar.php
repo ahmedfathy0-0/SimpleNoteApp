@@ -1,3 +1,7 @@
+<?php
+require_once base_path('core/Session.php');
+use Core\Session;
+?>
 <nav class="bg-gray-800/50">
   <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
     <div class="flex h-16 items-center justify-between">
@@ -32,7 +36,7 @@
               <img src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?auto=format&fit=facearea&facepad=2&w=256&h=256&q=80" alt="" class="size-8 rounded-full outline -outline-offset-1 outline-white/10" />
             </button>
           </div>
-          <?php if (!empty($_SESSION['user_id'])): ?>
+          <?php if (!empty(Session::get('user_id'))): ?>
             <a href="/logout" class="ml-4 px-3 py-2 rounded-md text-sm font-medium text-gray-300 hover:bg-white/5 hover:text-white">Logout</a>
           <?php else: ?>
             <a href="/signin" class="ml-4 px-3 py-2 rounded-md text-sm font-medium text-gray-300 hover:bg-white/5 hover:text-white">Sign In</a>

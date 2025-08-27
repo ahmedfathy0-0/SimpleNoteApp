@@ -1,4 +1,6 @@
 <?php
+require_once base_path('core/Session.php');
+use Core\Session;
 use Core\Database;
 use Core\App;
 
@@ -6,10 +8,10 @@ class NotesUpdateController {
     public function update($id = null) {
         $container = App::getContainer();
         $db = $container->resolve('Database');
-        $user_id = $_SESSION['user_id'] ?? null;
+        $user_id = Session::get('user_id');
         $title = "Edit Note";
-        $success = false;
-        $error = null;
+        $success = Session::getFlash('success');
+        $error = Session::getFlash('error');
         $note = null;
 
         if (!$id) {
@@ -26,23 +28,25 @@ class NotesUpdateController {
 
         $note_title = trim($_POST['title'] ?? '');
         $note_content = trim($_POST['content'] ?? '');
-
         if ($note_title && $note_content) {
             if ($db->updateNote($id, $user_id, $note_title, $note_content)) {
-                $success = true;
-                $note = $db->getNoteByUser($id, $user_id);
+                Session::flash('success', true);
+                header("Location: /note/edit?id=$id");
+                exit;
             } else {
-                $error = "Failed to update note.";
-                $note = $db->getNoteByUser($id, $user_id);
+                Session::flash('error', "Failed to update note.");
+                header("Location: /notes/edit?id=$id");
+                exit;
             }
         } else {
-            $error = "Title and content are required.";
-            $note = $db->getNoteByUser($id, $user_id);
+            Session::flash('error', "Title and content are required.");
+            header("Location: /notes/edit?id=$id");
+            exit;
         }
 
+        $note = $db->getNoteByUser($id, $user_id);
         view('notes/edit', compact('title', 'success', 'error', 'note'));
     }
 }
 
 $controller = new NotesUpdateController();
-   

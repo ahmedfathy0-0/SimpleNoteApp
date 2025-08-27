@@ -1,4 +1,6 @@
 <?php
+require_once base_path('core/Session.php');
+use Core\Session;
 use Core\Database;
 use Core\App;
 
@@ -6,10 +8,10 @@ class NotesEditController {
     public function create() {
         $container = App::getContainer();
         $db = $container->resolve('Database');
-        $user_id = $_SESSION['user_id'] ?? null;
+        $user_id = Session::get('user_id');
         $title = "Edit Note";
-        $success = false;
-        $error = null;
+        $success = Session::getFlash('success');
+        $error = Session::getFlash('error');
 
         view('notes/edit', compact('title', 'success', 'error'));
     }
@@ -17,10 +19,10 @@ class NotesEditController {
     public function edit($id = null) {
         $container = App::getContainer();
         $db = $container->resolve('Database');
-        $user_id = $_SESSION['user_id'] ?? null;
+        $user_id = Session::get('user_id');
         $title = "Edit Note";
-        $success = false;
-        $error = null;
+        $success = Session::getFlash('success');
+        $error = Session::getFlash('error');
         $note = null;
 
         if ($id) {

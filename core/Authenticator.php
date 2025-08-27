@@ -2,6 +2,8 @@
 
 namespace Core;
 
+require_once __DIR__ . '/Session.php';
+
 class Authenticator
 {
     protected $db;
@@ -15,8 +17,8 @@ class Authenticator
     {
         $user = $this->db->authenticateUser($username, $password);
         if ($user) {
-            $_SESSION['user_id'] = $user['user_id'];
-            $_SESSION['username'] = $user['username'];
+            Session::set('user_id', $user['user_id']);
+            Session::set('username', $user['username']);
             return true;
         }
         return false;
@@ -24,8 +26,9 @@ class Authenticator
 
     public function logout()
     {
-        session_unset();
-        session_destroy();
+        Session::unset('user_id');
+        Session::unset('username');
+        Session::destroy();
     }
 
     public function signup($username, $email, $password)
