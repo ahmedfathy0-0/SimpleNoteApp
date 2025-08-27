@@ -10,12 +10,16 @@ $router->get('/notes', [
     'class' => 'NotesIndexController',
     'method' => 'index'
 ]);
+$router->middleware('GET', '/notes', 'auth');
+
 $router->get('/note', [
     'controller' => 'controllers/notes/show.php',
     'class' => 'NotesShowController',
     'method' => 'show',
     'params' => [$_GET['id'] ?? null]
 ]);
+$router->middleware('GET', '/note', 'auth');
+
 $router->get('/note/create', [
     'controller' => 'controllers/notes/create.php',
     'class' => 'NotesCreateController',
@@ -38,13 +42,15 @@ $router->patch('/note/update', [
     'method' => 'update',
     'params' => [$_GET['id'] ?? null]
 ]);
-
 $router->delete('/note', [
     'controller' => 'controllers/notes/destroy.php',
     'class' => 'NotesDestroyController',
     'method' => 'destroy',
     'params' => [$_GET['id'] ?? null]
 ]);
+$router->middleware('GET', '/note', 'auth');
+$router->middleware('PATCH', '/note/update', 'auth');
+$router->middleware('DELETE', '/note', 'auth');
 
 // Other routes (dashboard, team, projects, calendar)
 $router->get('/', [

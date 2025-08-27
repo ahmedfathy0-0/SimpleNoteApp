@@ -28,6 +28,13 @@ class Router {
         $this->routes['DELETE'][$uri] = $action;
     }
 
+    // Add middleware to a route
+    public function middleware($method, $uri, $middleware) {
+        if (isset($this->routes[$method][$uri])) {
+            $this->routes[$method][$uri]['middleware'] = $middleware;
+        }
+    }
+
     public function dispatch($uri, $method) {
         $action = $this->routes[$method][$uri] ?? null;
         if (!$action) {
@@ -35,13 +42,21 @@ class Router {
             abort(\Core\Response::NOT_FOUND);
         }
 
-        // $action = ['controller' => ..., 'method' => ...]
+        // Middleware check
+        if (!empty($action['middleware'])) {
+            $middleware = $action['middleware'];
+            require_once base_path("middleware/{$middleware}.php");
+            $middlewareFunc = "{$middleware}_middleware";
+            if (function_exists($middlewareFunc)) {
+                $middlewareFunc();
+            }
+        }
+
         require_once base_path($action['controller']);
         $controllerClass = $action['class'];
         $controller = new $controllerClass();
         $method = $action['method'];
         if (method_exists($controller, $method)) {
-            // Pass parameters if needed
             $params = $action['params'] ?? [];
             call_user_func_array([$controller, $method], $params);
         } else {

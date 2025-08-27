@@ -2,8 +2,6 @@
 // controllers/DashboardController.php
 use Core\Database;
 
-$_SESSION['user_id'] = 1; 
-
 class DashboardController
 {
     public function index()
