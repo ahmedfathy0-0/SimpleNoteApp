@@ -1,11 +1,13 @@
 <?php
 use Core\Database;
 use Core\App;
+use Core\Validator;
 
 class SignupController {
     public function register() {
         $container = App::getContainer();
         $db = $container->resolve('Database');
+        $validator = $container->resolve('Validator');
         $title = "Sign Up";
         $error = null;
         $success = false;
@@ -14,15 +16,20 @@ class SignupController {
         $email = trim($_POST['email'] ?? '');
         $password = $_POST['password'] ?? '';
 
-        if ($username && $email && $password) {
+        $missing = Validator::required(['username', 'email', 'password'], $_POST);
+        if ($missing) {
+            $error = "Missing fields: " . implode(', ', $missing);
+        } elseif (!Validator::email($email)) {
+            $error = "Invalid email address.";
+        } elseif (!Validator::minLength($password, 6)) {
+            $error = "Password must be at least 6 characters.";
+        } else {
             $result = $db->registerUser($username, $email, $password);
             if ($result === true) {
                 $success = true;
             } else {
-                $error = $result; // error message from Database
+                $error = $result;
             }
-        } else {
-            $error = "All fields are required.";
         }
 
         view('signup', compact('title', 'error', 'success'));
@@ -30,4 +37,3 @@ class SignupController {
 }
 
 $controller = new SignupController();
-             

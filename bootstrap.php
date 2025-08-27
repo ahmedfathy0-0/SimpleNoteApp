@@ -3,6 +3,7 @@
 require_once base_path('core/Container.php');
 require_once base_path('core/App.php');
 require_once base_path('core/database.php'); // <-- Add this line
+require_once base_path('core/Validator.php'); // <-- Add this line
 
 use Core\Container;
 use Core\App;
@@ -19,6 +20,9 @@ $container->bind('Database', function() use ($container) {
     return new \Core\Database($config['database'], 'root', 'NEW@22wntg');
 });
 
+$container->bind('Validator', function() {
+    return new \Core\Validator();
+});
 
 App::setContainer($container);
 
